@@ -14,7 +14,8 @@ module top (
 );
 logic [15:0] sum_wire;
 logic [4:0][7:0] lcd_dec;
-
+logic [7:0] n_temp;
+logic [2:0][7:0] n_temp_dec;
 assign LEDR[15:0] = SW[15:0] ; 
 assign LEDR[16] = !SW[16] ;
 
@@ -24,14 +25,18 @@ sum_ver2 sum_module (
     .data_i(SW[7:0]),
     .n_i(SW[15:8]),
     .done_o(LEDR[17]),
-    .sum_o(sum_wire)
+    .sum_o(sum_wire),
+    .n_o(n_temp)
 ); 
 hex_to_dec hex2dec_module (
     .hex_i(sum_wire),
-    .dec(lcd_dec)
+    .dec(lcd_dec),
+    .n_hex_i(n_temp),
+    .n_dec(n_temp_dec)
 );
 lcd_display lcd_module (
     .decim_i(lcd_dec),
+    .n_remain(n_temp_dec),
     //change clk_i to CLOCK_50
     .clk_i(CLOCK_50) ,
 	.lcd_e (LCD_EN) ,

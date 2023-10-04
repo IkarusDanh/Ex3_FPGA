@@ -29,7 +29,7 @@ always_ff @(posedge start_i ) begin
             get_n <= n_i;
             get_sum <= get_sum + {8'h0, data_i};
             sum_o <= get_sum + {8'h0, data_i};
-            n_o <= counter+1;
+            n_o <= counter;
             counter <= counter + 1;
             if (counter == (get_n - 1)) done_o <= 1;
             else done_o <= 0;
@@ -37,7 +37,7 @@ always_ff @(posedge start_i ) begin
         else begin
             done_o <= 1;
             sum_o <= get_sum;
-            //n_o <= counter;
+            n_o <= counter;
         end
     end
 end
