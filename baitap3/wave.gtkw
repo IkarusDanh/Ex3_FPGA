@@ -1,0 +1,31 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Sep 27 04:20:01 2023
+[*]
+[dumpfile] "/home/danhle123/BTL_FGPA/baitap3/wave.fst"
+[dumpfile_mtime] "Wed Sep 27 04:08:35 2023"
+[dumpfile_size] 780
+[savefile] "/home/danhle123/BTL_FGPA/baitap3/wave.gtkw"
+[timestart] 0
+[size] 1016 639
+[pos] -1 -1
+*-5.982025 55 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.top.
+[sst_width] 276
+[signals_width] 134
+[sst_expanded] 1
+[sst_vpaned_height] 172
+@28
+TOP.clk_i
+TOP.start_i
+@24
+TOP.n_i[7:0]
+TOP.data_i[7:0]
+TOP.sum_o[15:0]
+@28
+TOP.done_o
+@25
+TOP.top.sum_module.get_sum[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

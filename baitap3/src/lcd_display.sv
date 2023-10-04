@@ -1,0 +1,78 @@
+/* verilator lint_off LITENDIAN */
+/* verilator lint_off BLKSEQ */
+module lcd_display (
+input clk_i,
+input logic [4:0][7:0] decim_i, 
+output reg lcd_e, lcd_rs,
+output reg [7:0] data
+);
+//////////////////////////////////////////////////////
+//preset lcd write
+integer j = 1;
+reg [1:19][7:0] Datas ;
+always @(posedge clk_i) begin
+	Datas[1] = 8'h38; //-- control instruction : configure - 2 lines, 5x7 matrix --
+	Datas[2] = 8'h0C; //-- control instruction : Display on, cursor off --
+	Datas[3] = 8'h06; //-- control instruction : Increment cursor : shift cursor to
+	Datas[4] = 8'h01; //-- control instruction : clear display screen --
+	Datas[5] = 8'h80; //-- control instruction : force cursor to begin at first
+	Datas[6] = "N" ;
+    Datas[7] = "H" ;
+    Datas[8] = "O" ;
+    Datas[9] = "M" ;
+    Datas[10] = " " ;
+    Datas[11] = "1" ;
+    Datas[12] = "4" ;
+    Datas[13] = ":" ;
+    Datas[14] = " " ;
+    Datas[15] = decim_i[4][7:0] + 8'h30 ;
+    Datas[16] = decim_i[3][7:0] + 8'h30 ;
+    Datas[17] = decim_i[2][7:0] + 8'h30 ;
+    Datas[18] = decim_i[1][7:0] + 8'h30 ;
+    Datas[19] = decim_i[0][7:0] + 8'h30 ;
+	end
+
+// __8b_add adder1 (
+// 	.A_i(8'h3C),
+// 	.B_i(8'h3C),
+// 	.C_o(tmp)
+// );
+	
+integer i = 0; //
+always @(posedge clk_i) begin
+//-- Delay for writing data
+if (i <= 1000000) begin
+	i = i + 1; lcd_e = 1;
+	data = Datas[j];
+end
+else if (i > 1000000 & i < 2000000) begin
+
+	i = i + 1; lcd_e = 0;
+end
+else if (i == 2000000) begin
+	j = j + 1; i = 0;
+end
+else i = 0;
+//-- LCD_RS signal should be set to 0 for writing commands and to 1 for writing data
+if (j <= 5 )
+	lcd_rs = 0;
+else if (j > 5 & j< 20)
+	lcd_rs = 1;
+else if (j == 20)
+	lcd_rs = 0;
+
+else if (j > 20) begin
+	lcd_rs = 1;
+	j = 5;
+end
+else lcd_rs = 1;
+
+//else
+//if (j > 27) begin
+//	lcd_rs = 1;
+//	j = 5;
+//end
+end
+endmodule
+/* verilator lint_off LITENDIAN */
+/* verilator lint_off BLKSEQ */

@@ -1,0 +1,40 @@
+/* verilator lint_off UNUSED */
+module top (
+    //inputs
+    // change clk_i to CLOCK_50
+    input logic clk_i,
+    input logic rst_ni,
+    input logic start_i,
+    input logic [7:0] data_i, n_i,
+    //outputs
+    output logic done_o,
+    //ouputs for LCD
+    output logic LCD_EN  , LCD_RS , LCD_ON , LCD_RW ,
+	output logic [7:0] LCD_DATA
+);
+logic [15:0] sum_wire;
+logic [4:0][7:0] lcd_dec;
+sum_ver2 sum_module (
+    .rst_ni(rst_ni),
+    .start_i(start_i),
+    .data_i(data_i),
+    .n_i(n_i),
+    .done_o(done_o),
+    .sum_o(sum_wire)
+); 
+hex_to_dec hex2dec_module (
+    .hex_i(sum_wire),
+    .dec(lcd_dec)
+);
+lcd_display lcd_module (
+    .decim_i(lcd_dec[4:0][7:0]),
+    //change clk_i to CLOCK_50
+    .clk_i(clk_i) ,
+	.lcd_e (LCD_EN) ,
+	.lcd_rs (LCD_RS) ,
+	.data(LCD_DATA)
+);
+	assign LCD_ON = 1'b1;
+	assign LCD_RW = 1'b0;
+endmodule
+/* verilator lint_off UNUSED */

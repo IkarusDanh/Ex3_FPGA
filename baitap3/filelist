@@ -1,0 +1,4 @@
+src/hex_to_dec.sv
+src/sum_ver2.sv
+src/lcd_display.sv
+top.sv
